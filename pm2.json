@@ -1,0 +1,19 @@
+{
+    "apps": [
+        {
+            "name": "api-generator",
+            "script": "index.js",
+            "watch": false,
+            "env": {
+                "NODE_ENV": "production",
+                "PORT": 9527
+            },
+            "instances": "1",
+            "exec_mode": "cluster_mode",
+            "node_args": [
+                "--nouse-idle-notification"
+            ],
+            "error_file": "logs/err.log"
+        }
+    ]
+}
