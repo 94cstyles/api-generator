@@ -162,7 +162,20 @@ module.exports = (app, API_CACHE) => {
           uri: `/api/${utils.md5(project.name) + ctx.request.body.url}`,
           explain: ctx.request.body.explain.trim(),
           request: [],
-          response: [],
+          response: [{
+            'key': 'status',
+            'type': 'number',
+            'note': '请求状态码，1:接口请求成功并正确返回数据，非1:接口请求失败或其他错误原因'
+          }, {
+            'key': 'message',
+            'type': 'string',
+            'note': '请求信息或错误信息'
+          }, {
+            'key': 'result',
+            'type': 'object',
+            'note': '请求响应内容',
+            'children': []
+          }],
           mock: {}
         })
 

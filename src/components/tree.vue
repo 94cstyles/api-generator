@@ -9,8 +9,8 @@
         </div>
         <div class="u-treeTable__td">
           <div class="u-treeTable__text" v-if="disable">{{item.type}}</div>
-          <el-select v-else v-model="item.type" placeholder="请选择请求类型" @change="change(item, index)">
-            <el-option v-for="text in options" :key="text" :label="text" :value="text"></el-option>
+          <el-select v-else v-model="item.type" :class="{'z-active': item.type !== ''}"  :placeholder="item.type || '请选择请求类型'" @change="change(item, index)">
+            <el-option v-for="(text, index) in options" :key="index" :label="text" :value="text"></el-option>
           </el-select>
         </div>
         <div class="u-treeTable__td" :style="{'marginRight': disable ? 0 : '-100px'}">

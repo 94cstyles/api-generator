@@ -44,7 +44,8 @@
             this.temp = data.result.mock
             if (JSON.stringify(data.result.mock) === '{}') this.temp = placeholder
             // 初始化json编辑器
-            const extraKeys = /Mac OS X/.test(navigator.userAgent) ? {'Cmd-Space': 'autocomplete'} : {'Ctrl-Space': 'autocomplete'}
+//            const extraKeys = /Mac OS X/.test(navigator.userAgent) ? {'Cmd-Space': 'autocomplete'} : {'Ctrl-Space': 'autocomplete'}
+            const extraKeys = {'Ctrl-B': 'autocomplete'}
             this.editor = CodeMirror.fromTextArea(document.getElementById('js_editor'), {
               mode: 'application/json',
               indentUnit: 2,

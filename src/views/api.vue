@@ -61,7 +61,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="请求链接" required prop="url">
-          <el-input v-model="formData.url"></el-input>
+          <el-input v-model="formData.url" placeholder="/api/user">
+          </el-input>
         </el-form-item>
         <el-form-item label="说明" prop="explain">
           <el-input type="textarea" v-model="formData.explain" :autosize="{ minRows: 1, maxRows: 4 }"></el-input>

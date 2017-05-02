@@ -5,8 +5,9 @@
         <i class="el-icon-document"></i> 项目列表
       </h2>
       <div class="m-project__wrapper">
+        <el-input style="margin-bottom: 12px" v-model="filter" placeholder="项目过滤" icon="search" @change=""></el-input>
         <el-row>
-          <el-col v-for="(item, index) in listData" :key="item._id" :span="5" :offset="index % 4 ===  0 ? 0 : 1" :style="{'margin-top': index > 3 ? '12px' : '0px'}">
+          <el-col class="m-project__col" v-for="(item, index) in listData" :key="item._id" :span="5" :offset="0"  v-show="(new RegExp(filter)).test(item.name)">
             <el-card class="m-project__item" :body-style="{padding: '14px'}">
               <div class="m-project__name f-toe">{{item.name}}</div>
               <div class="m-project__foot f-cb">
@@ -21,7 +22,7 @@
               </div>
             </el-card>
           </el-col>
-          <el-col :span="5" :offset="listData.length % 4 ===  0 ? 0 : 1" :style="{'margin-top': listData.length > 3 ? '12px' : '0px'}">
+          <el-col class="m-project__col" :span="5" :offset="0">
             <div class="m-project__add" @click="add">
               <i class="el-icon-plus"></i>
             </div>
@@ -36,6 +37,7 @@
     data () {
       return {
         loading: false,
+        filter: '',
         listData: []
       }
     },
@@ -120,7 +122,8 @@
       padding: 20px 0;
       line-height: 1;
     }
-    &__name {
+    &__col {
+      margin: 12px 4.16667% 0 0;
     }
     &__foot {
       margin-top: 13px;
@@ -130,9 +133,9 @@
       color: #999;
     }
     &__add {
-      height: 76px;
+      height: 71px;
       text-align: center;
-      line-height: 76px;
+      line-height: 71px;
       font-size: 32px;
       color: #eaeaea;
       background-color: #fff;
