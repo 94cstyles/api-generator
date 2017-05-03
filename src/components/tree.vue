@@ -2,29 +2,40 @@
   <ul>
     <template v-for="(item, index) in currentValue">
       <li class="u-treeTable__tr">
-        <div class="u-treeTable__td">
+        <div class="u-treeTable__td s-column-key" :class="{'s-column-small': type === 'request'}">
           <i class="el-icon-arrow-down" :style="tdStyle(item)"></i>
-          <div class="u-treeTable__text" v-if="disable" :style="{ 'paddingLeft': (currentLevel * 15 + 30) + 'px' }">{{item.key}}</div>
+          <div class="u-treeTable__text" v-if="disable" :style="{ 'paddingLeft': (currentLevel * 15 + 30) + 'px' }">
+            {{item.key}}
+          </div>
           <el-input v-else v-model="item.key" placeholder="请输入参数名" :style="{ 'paddingLeft': (currentLevel * 15 + 10) + 'px' }"></el-input>
         </div>
-        <div class="u-treeTable__td">
+        <div class="u-treeTable__td s-column-type" v-if="type === 'request'">
+          <div class="u-treeTable__text" v-if="disable">{{item.required}}</div>
+          <el-select v-else v-model="item.required" :class="{'z-active': item.required !== ''}" :placeholder="item.required || '请选择是否必填'">
+            <el-option v-for="(text, index) in ['是', '否']" :key="index" :label="text" :value="text"></el-option>
+          </el-select>
+        </div>
+        <div class="u-treeTable__td s-column-type">
           <div class="u-treeTable__text" v-if="disable">{{item.type}}</div>
-          <el-select v-else v-model="item.type" :class="{'z-active': item.type !== ''}"  :placeholder="item.type || '请选择请求类型'" @change="change(item, index)">
+          <el-select v-else v-model="item.type" :class="{'z-active': item.type !== ''}"
+                     :placeholder="item.type || '请选择请求类型'" @change="change(item, index)">
             <el-option v-for="(text, index) in options" :key="index" :label="text" :value="text"></el-option>
           </el-select>
         </div>
-        <div class="u-treeTable__td" :style="{'marginRight': disable ? 0 : '-100px'}">
+        <div class="u-treeTable__td s-column-note" :style="{'marginRight': disable ? 0 : '-100px'}">
           <div class="wrap" :style="{'marginRight': disable ? 0 : '100px'}">
             <div class="u-treeTable__text" v-if="disable">{{item.note}}</div>
-            <el-input v-else v-model="item.note" type="textarea" :autosize="{ minRows: 1, maxRows: 20}" placeholder="请输入备注"></el-input>
+            <el-input v-else v-model="item.note" type="textarea" :autosize="{ minRows: 1, maxRows: 20}"
+                      placeholder="请输入备注"></el-input>
           </div>
         </div>
-        <div class="u-treeTable__td" v-show="!disable">
-          <el-button size="small" type="success" icon="plus" title="添加" v-if="/object/.test(item.type)" @click="add(index)"></el-button>
+        <div class="u-treeTable__td s-column-btn" v-show="!disable">
+          <el-button size="small" type="success" icon="plus" title="添加" v-if="/object/.test(item.type)"
+                     @click="add(index)"></el-button>
           <el-button size="small" type="danger" icon="delete" title="删除" @click="remove(index)"></el-button>
         </div>
       </li>
-      <tree v-if="item.children" v-model="item.children" :level="currentLevel + 1" :disable="disable"></tree>
+      <tree v-if="item.children" v-model="item.children" :level="currentLevel + 1" :disable="disable" :type="type"></tree>
     </template>
   </ul>
 </template>
@@ -32,6 +43,10 @@
   export default {
     name: 'tree',
     props: {
+      type: {
+        type: String,
+        default: 'response'
+      },
       value: {
         type: Array,
         default: []
@@ -84,9 +99,11 @@
       add (index) {
         this.currentValue[index].children.unshift({
           key: '',
+          required: '是',
           type: '',
           note: ''
         })
+        console.log(JSON.stringify(this.currentValue, null, 4))
       },
       remove (index) {
         this.$delete(this.currentValue, index)

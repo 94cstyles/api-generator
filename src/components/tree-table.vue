@@ -2,15 +2,16 @@
   <div class="u-treeTable">
     <div class="u-treeTable__table">
       <div class="u-treeTable__tr">
-        <div class="u-treeTable__th">参数名</div>
-        <div class="u-treeTable__th">类型</div>
-        <div class="u-treeTable__th" :style="{'marginRight': disable ? 0 : '-100px'}">
+        <div class="u-treeTable__th s-column-key" :class="{'s-column-small': type === 'request'}">参数名</div>
+        <div class="u-treeTable__th s-column-type" v-if="type === 'request'">必填</div>
+        <div class="u-treeTable__th s-column-type">类型</div>
+        <div class="u-treeTable__th s-column-note" :style="{'marginRight': disable ? 0 : '-100px'}">
           <div class="wrap" :style="{'marginRight': disable ? 0 : '100px'}">备注</div>
         </div>
-        <div class="u-treeTable__th" v-show="!disable">操作</div>
+        <div class="u-treeTable__th s-column-btn" v-show="!disable">操作</div>
       </div>
       <div class="u-treeTable__null" v-show="currentValue.length === 0">没有参数</div>
-      <tree v-model="currentValue" :disable="disable"></tree>
+      <tree v-model="currentValue" :disable="disable" :type="type"></tree>
     </div>
     <div class="u-treeTable__foot" v-show="!disable">
       <el-button size="small" @click="add()">添加参数</el-button>
@@ -23,6 +24,10 @@
   export default {
     name: 'tree-table',
     props: {
+      type: {
+        type: String,
+        default: 'response'
+      },
       value: {
         type: Array,
         default: []
@@ -52,6 +57,7 @@
       add () {
         this.currentValue.push({
           key: '',
+          required: '是',
           type: '',
           note: ''
         })
@@ -79,20 +85,23 @@
         border-bottom: 1px solid #eaeefb;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
-        &:nth-child(1) {
+        &.s-column-key {
           position: relative;
           float: left;
           width: 324px;
+          &.s-column-small {
+            width: 204px;
+          }
         }
 
-        &:nth-child(2) {
+        &.s-column-type {
           position: relative;
           float: left;
           width: 120px;
           text-align: center;
         }
 
-        &:nth-child(3) {
+        &.s-column-note {
           float: left;
           width: 100%;
           margin-left: -444px;
@@ -103,7 +112,7 @@
           }
         }
 
-        &:nth-child(4) {
+        &.s-column-btn {
           position: relative;
           float: left;
           width: 90px;

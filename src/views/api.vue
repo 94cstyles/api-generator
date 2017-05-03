@@ -27,7 +27,7 @@
                   <div class="m-api__des">{{props.row.explain}}</div>
                 </template>
                 <h3 class="m-api__tit">请求参数列表</h3>
-                <treeTable v-model="props.row._edit.request" :disable="!props.row._edit.disable"></treeTable>
+                <treeTable v-model="props.row._edit.request" type="request" :disable="!props.row._edit.disable"></treeTable>
                 <h3 class="m-api__tit">响应参数列表</h3>
                 <treeTable v-model="props.row._edit.response" :disable="!props.row._edit.disable"></treeTable>
               </div>

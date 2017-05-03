@@ -1,5 +1,5 @@
 module.exports = {
-  code: 1,
+  status: 1,
   message: '',
   result: [{
     'repeat(5,10)': {
