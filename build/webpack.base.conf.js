@@ -67,9 +67,29 @@ module.exports = {
         }
       },
       {
+        test: /\.css$/,
+        use: process.env.NODE_ENV === 'production' ? ExtractTextPlugin.extract('css-loader') : ['style-loader', 'css-loader']
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src')]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 1000,
+          name: `images/[name].[ext]`
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 1000,
+          name: `fonts/[name].[ext]`
+        }
       }
     ]
   },

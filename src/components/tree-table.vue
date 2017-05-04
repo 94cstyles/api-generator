@@ -175,22 +175,6 @@
       padding-left: 20px;
     }
     .el-select {
-      &.z-active .el-input__inner {
-        &::-webkit-input-placeholder {
-          color: #5e6d82;
-        }
-        &:-ms-input-placeholder {
-          color: #5e6d82;
-        }
-        &::-moz-placeholder {
-          color: #5e6d82;
-          opacity: 1;
-        }
-        &::placeholder {
-          color: #5e6d82;
-          opacity: 1;
-        }
-      }
       .el-input__inner {
         padding: 0;
         text-align: center;

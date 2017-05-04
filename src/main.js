@@ -1,3 +1,4 @@
+import 'element-ui/lib/theme-default/index.css'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Element from 'element-ui'

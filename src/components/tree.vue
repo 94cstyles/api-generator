@@ -11,14 +11,13 @@
         </div>
         <div class="u-treeTable__td s-column-type" v-if="type === 'request'">
           <div class="u-treeTable__text" v-if="disable">{{item.required}}</div>
-          <el-select v-else v-model="item.required" :class="{'z-active': item.required !== ''}" :placeholder="item.required || '请选择是否必填'">
+          <el-select v-else v-model="item.required" :placeholder="item.required || '请选择是否必填'">
             <el-option v-for="(text, index) in ['是', '否']" :key="index" :label="text" :value="text"></el-option>
           </el-select>
         </div>
         <div class="u-treeTable__td s-column-type">
           <div class="u-treeTable__text" v-if="disable">{{item.type}}</div>
-          <el-select v-else v-model="item.type" :class="{'z-active': item.type !== ''}"
-                     :placeholder="item.type || '请选择请求类型'" @change="change(item, index)">
+          <el-select v-else v-model="item.type" :placeholder="item.type || '请选择请求类型'" @change="change(item, index)">
             <el-option v-for="(text, index) in options" :key="index" :label="text" :value="text"></el-option>
           </el-select>
         </div>
@@ -103,7 +102,6 @@
           type: '',
           note: ''
         })
-        console.log(JSON.stringify(this.currentValue, null, 4))
       },
       remove (index) {
         this.$delete(this.currentValue, index)
