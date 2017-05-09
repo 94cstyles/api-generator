@@ -108,11 +108,11 @@ const mock = {
 }
 
 // 匹配所有数据模板
-const regAll = /{{(request|index|id|bool|integer|float|string|random|age|gender|email|phone|username|password|longitude|latitude|url|ua|ip|mac|avatar|image|color|rgb|rgba|date|time|datetime|title|paragraph|sentence|name|region|province|city|county|address|zip)\([)}]*\)}}/g
+const regAll = /{{(request|index|id|bool|integer|float|string|random|age|gender|email|phone|username|password|longitude|latitude|url|ua|ip|mac|avatar|image|color|rgb|rgba|date|time|datetime|title|paragraph|sentence|name|region|province|city|county|address|zip)\(\S*\)}}/g
 // 匹配number类型数据模板
-const regNumber = /^{{(index|integer|float|age|longitude|latitude)\([)}]*\)}}$/
+const regNumber = /^{{(index|integer|float|age|longitude|latitude)\(\S*\)}}$/
 // 匹配bool类型数据模板
-const regBoolean = /^{{(bool)\([)}]*\)}}$/
+const regBoolean = /^{{(bool)\(\S*\)}}$/
 
 /**
  * 空函数 内部不做任何处理 直接返回参数

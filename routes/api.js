@@ -11,7 +11,7 @@ module.exports = (app, API_CACHE) => {
       ctx.body = mock(lodash.cloneDeep(temp), request)
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '接口不存在'
       }
     }

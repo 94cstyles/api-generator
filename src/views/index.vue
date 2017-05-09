@@ -48,7 +48,7 @@
       loadData () {
         this.$http.post('/admin/project/list')
           .then(({data}) => {
-            if (data.code === 1) {
+            if (data.status === 1) {
               this.listData = data.result
             } else {
               this.$message.error('获取数据失败')
@@ -74,7 +74,7 @@
             name: value
           }).then(({data}) => {
             this.loading = false
-            if (data.code === 1) {
+            if (data.status === 1) {
               this.loadData()
             } else {
               this.$message.error(data.message)
@@ -98,7 +98,7 @@
           this.$http.post('/admin/project/remove', {
             _id: id
           }).then(({data}) => {
-            if (data.code === 1) {
+            if (data.status === 1) {
               this.loadData()
             } else {
               this.$message(data.message)

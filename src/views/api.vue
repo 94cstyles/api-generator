@@ -125,7 +125,7 @@
         this.$http.post('/admin/api/list', {
           project_id: this.$route.params.project
         }).then(({data}) => {
-          if (data.code === 1) {
+          if (data.status === 1) {
             this.projectName = data.result.project.name
             data.result.api.forEach((o, i) => {
               data.result.api[i]._edit = {
@@ -156,7 +156,7 @@
           this.$http.post('/admin/api/remove', {
             _id: id
           }).then(({data}) => {
-            if (data.code === 1) {
+            if (data.status === 1) {
               this.loadData()
             } else {
               this.$message.error(data.message)
@@ -178,7 +178,7 @@
             this.$http.post(`/admin/api/${this.formData.type}`, this.$extend({
               project_id: this.$route.params.project
             }, this.formData)).then(({data}) => {
-              if (data.code === 1) {
+              if (data.status === 1) {
                 this.loadData()
                 this.fromDialogVisible = false
               } else {
@@ -202,7 +202,7 @@
             _id: this.copyTarget,
             project_id: this.copyDest
           }).then(({data}) => {
-            if (data.code === 1) {
+            if (data.status === 1) {
               this.copyDialogVisible = false
               this.$message({
                 message: data.message,
@@ -237,7 +237,7 @@
         this.loading = true
         this.$http.post('/admin/project/list')
           .then(({data}) => {
-            if (data.code === 1) {
+            if (data.status === 1) {
               this.copyOptions = data.result
               this.copyTarget = id
               this.copyDest = ''
@@ -312,7 +312,7 @@
           request: this.format(row._edit.request),
           response: this.format(row._edit.response)
         }).then(({data}) => {
-          if (data.code === 1) {
+          if (data.status === 1) {
             this.$set(this.tableData[index]._edit, 'loading', false)
             this.$set(this.tableData[index]._edit, 'disable', false)
             this.$message({

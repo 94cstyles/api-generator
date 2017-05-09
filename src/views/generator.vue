@@ -40,7 +40,7 @@
           _id: this.$route.params.id
         }).then(({data}) => {
           this.loading = false
-          if (data.code === 1) {
+          if (data.status === 1) {
             this.temp = data.result.mock
             if (JSON.stringify(data.result.mock) === '{}') this.temp = placeholder
             // 初始化json编辑器
@@ -119,7 +119,7 @@
           _id: this.$route.params.id,
           mock: JSON.parse(this.editor.getValue())
         }).then(({data}) => {
-          if (data.code === 1) {
+          if (data.status === 1) {
             this.$message({
               message: '修改mock数据成功',
               type: 'success'

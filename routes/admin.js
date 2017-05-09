@@ -18,7 +18,7 @@ module.exports = (app, API_CACHE) => {
   // 获取项目列表
   app.use(_.post('/admin/project/list', async (ctx) => {
     ctx.body = {
-      code: 1,
+      status: 1,
       message: '',
       result: await ctx.mongo.collection('project').find({}, {sort: {_id: -1}}).toArray()
     }
@@ -38,18 +38,18 @@ module.exports = (app, API_CACHE) => {
         })
 
         ctx.body = {
-          code: res.result.n,
+          status: res.result.n,
           message: `项目创建${['失败', '成功'][res.result.n]}！`
         }
       } else {
         ctx.body = {
-          code: 0,
+          status: 0,
           message: '项目已经存在'
         }
       }
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '请输入项目名称'
       }
     }
@@ -79,18 +79,18 @@ module.exports = (app, API_CACHE) => {
         }
 
         ctx.body = {
-          code: res.result.n,
+          status: res.result.n,
           message: `删除项目${['失败', '成功'][res.result.n]}！`
         }
       } else {
         ctx.body = {
-          code: 0,
+          status: 0,
           message: '项目不存在'
         }
       }
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '项目ID为空'
       }
     }
@@ -100,7 +100,7 @@ module.exports = (app, API_CACHE) => {
   app.use(_.post('/admin/api/list', async (ctx) => {
     if (ctx.request.body.project_id) {
       ctx.body = {
-        code: 1,
+        status: 1,
         message: '',
         result: {
           project: await ctx.mongo.collection('project').findOne({
@@ -115,7 +115,7 @@ module.exports = (app, API_CACHE) => {
       }
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '项目ID为空'
       }
     }
@@ -129,13 +129,13 @@ module.exports = (app, API_CACHE) => {
 
     if (data) {
       ctx.body = {
-        code: 1,
+        status: 1,
         message: '',
         result: data
       }
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '接口ID错误'
       }
     }
@@ -176,27 +176,35 @@ module.exports = (app, API_CACHE) => {
             'note': '请求响应内容',
             'children': []
           }],
-          mock: {}
+          mock: {
+            'status': 1,
+            'message': '',
+            'result': {}
+          }
         })
 
         // 添加接口
         if (res.result.n === 1) {
-          API_CACHE[`/api/${utils.md5(project.name) + ctx.request.body.url}`] = {}
+          API_CACHE[`/api/${utils.md5(project.name) + ctx.request.body.url}`] = {
+            'status': 1,
+            'message': '',
+            'result': {}
+          }
         }
 
         ctx.body = {
-          code: res.result.n,
+          status: res.result.n,
           message: `接口创建${['失败', '成功'][res.result.n]}！`
         }
       } else {
         ctx.body = {
-          code: 0,
+          status: 0,
           message: '接口已经存在'
         }
       }
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '项目ID错误'
       }
     }
@@ -209,8 +217,15 @@ module.exports = (app, API_CACHE) => {
     })
 
     if (data) {
+      const project = await ctx.mongo.collection('project').findOne({
+        _id: mongo.ObjectId(data.project_id)
+      })
+
       const updateData = lodash.cloneDeep(ctx.request.body)
       if (updateData.explain) updateData.explain = updateData.explain.trim()
+      if (updateData.url) {
+        updateData.uri = `/api/${utils.md5(project.name) + updateData.url}`
+      }
       delete updateData._edit
       delete updateData._id
       delete updateData.project_id
@@ -223,12 +238,12 @@ module.exports = (app, API_CACHE) => {
       }
 
       ctx.body = {
-        code: res.result.n,
+        status: res.result.n,
         message: `修改接口${['失败', '成功'][res.result.n]}！`
       }
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '接口不存在'
       }
     }
@@ -250,12 +265,12 @@ module.exports = (app, API_CACHE) => {
       }
 
       ctx.body = {
-        code: res.result.n,
+        status: res.result.n,
         message: `删除接口${['失败', '成功'][res.result.n]}！`
       }
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '接口不存在'
       }
     }
@@ -289,24 +304,24 @@ module.exports = (app, API_CACHE) => {
           }
 
           ctx.body = {
-            code: res.result.n,
+            status: res.result.n,
             message: `复制接口${['失败', '成功'][res.result.n]}！`
           }
         } else {
           ctx.body = {
-            code: 0,
+            status: 0,
             message: '接口已经存在'
           }
         }
       } else {
         ctx.body = {
-          code: 0,
+          status: 0,
           message: '接口不存在'
         }
       }
     } else {
       ctx.body = {
-        code: 0,
+        status: 0,
         message: '项目不存在'
       }
     }
