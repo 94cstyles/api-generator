@@ -1,6 +1,6 @@
 const faker = require('faker')
 const Mock = require('mockjs')
-const {isNumber} = require('lodash')
+const utils = require('./utils')
 
 // mock数据生产模板
 const mock = {
@@ -130,12 +130,11 @@ function noop (text) {
  * @returns {Array} 空数组
  */
 function repeat (min = 1, max = min) { // eslint-disable-line no-unused-vars
-  if (isNumber(min) && isNumber(max)) {
+  if (utils.isNumber(min) && utils.isNumber(max)) {
     const len = faker.random.number({
       min: Math.min(min, max),
       max: Math.max(min, max)
     })
-
     return new Array(len)
   } else {
     return new Array(1)
@@ -155,21 +154,30 @@ function clone (temp, data, index) {
       const keys = Object.keys(temp[0])
       // 处理repeat(min, max)
       if (keys.length === 1 && /^repeat\(.*\)$/.test(keys[0])) {
-        const _ = Object.assign({}, temp[0][keys[0]])
-        try {
+        const value = temp[0][keys[0]]
+        if (utils.isObject(value)) {
+          const _ = Object.assign({}, temp[0][keys[0]])
+          try {
+            temp = eval(keys[0]) // eslint-disable-line no-eval
+            for (let i = 0; i < temp.length; i++) {
+              temp[i] = Object.assign({}, _)
+            }
+          } catch (e) {
+            temp = [_]
+          }
+        } else {
+          console.log(1)
           temp = eval(keys[0]) // eslint-disable-line no-eval
           for (let i = 0; i < temp.length; i++) {
-            temp[i] = Object.assign({}, _)
+            temp[i] = value
           }
-        } catch (e) {
-          temp = [_]
         }
       }
     }
 
     // 拆分数组进行处理
-    for (let [i, o] of temp.entries()) {
-      o = clone(o, data, --i + 1)
+    for (const [i, o] of temp.entries()) {
+      temp[i] = clone(o, data, i)
     }
   } else if (typeof temp === 'object' && temp !== null) {
     // 拆分对象进行处理

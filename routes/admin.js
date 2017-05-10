@@ -34,7 +34,7 @@ module.exports = (app, API_CACHE) => {
       if (!data) {
         const res = await ctx.mongo.collection('project').insert({
           name: ctx.request.body.name,
-          createTime: utils.format(new Date(), 'yyyy-MM-dd hh:mm:ss')
+          createTime: utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
         })
 
         ctx.body = {
@@ -225,6 +225,10 @@ module.exports = (app, API_CACHE) => {
       if (updateData.explain) updateData.explain = updateData.explain.trim()
       if (updateData.url) {
         updateData.uri = `/api/${utils.md5(project.name) + updateData.url}`
+      }
+      if (updateData.request && updateData.response && Object.keys(ctx.request.body).length === 3) {
+        const mock = utils.formatMock(updateData.response)
+        updateData.mock = utils.assignMock(mock, data.mock)
       }
       delete updateData._edit
       delete updateData._id

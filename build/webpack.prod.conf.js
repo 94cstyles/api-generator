@@ -19,7 +19,7 @@ module.exports = Object.assign(webpackConfig, {
   },
   output: {
     path: resolve('public'),
-    filename: 'js/[name].js',
+    filename: 'js/[name].js?[hash:7]',
     publicPath: '/'
   },
   devtool: false,
@@ -38,7 +38,7 @@ module.exports = Object.assign(webpackConfig, {
     }),
     // 提取css
     new ExtractTextPlugin({
-      filename: 'css/styles.css'
+      filename: 'css/styles.css?[hash:7]'
     }),
     // 提取index.html
     new HtmlWebpackPlugin({

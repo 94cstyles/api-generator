@@ -6,7 +6,7 @@ module.exports = (app) => {
   let API_CACHE_LOAD = false // 是否加载了缓存
 
   // 获取接口缓存
-  app.use(async (ctx, next) => {
+  app.use(async (ctx, next) => { // eslint-disable-line
     if (!API_CACHE_LOAD) {
       API_CACHE_LOAD = true
       const data = await ctx.mongo.collection('api').find().toArray()

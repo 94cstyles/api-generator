@@ -79,16 +79,16 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 1000,
-          name: `images/[name].[ext]`
+          limit: 10000,
+          name: `images/[name].[ext]?[hash:7]`
         }
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 1000,
-          name: `fonts/[name].[ext]`
+          limit: 10000,
+          name: `fonts/[name].[ext]?[hash:7]`
         }
       }
     ]
