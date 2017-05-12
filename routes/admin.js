@@ -226,7 +226,7 @@ module.exports = (app, API_CACHE) => {
       if (updateData.url) {
         updateData.uri = `/api/${utils.md5(project.name) + updateData.url}`
       }
-      if (updateData.request && updateData.response && Object.keys(ctx.request.body).length === 3) {
+      if (updateData.request && updateData.response && Object.keys(ctx.request.body).length === 3 && JSON.stringify(updateData.response) !== JSON.stringify(data.response)) {
         const mock = utils.formatMock(updateData.response)
         updateData.mock = utils.assignMock(mock, data.mock)
       }
