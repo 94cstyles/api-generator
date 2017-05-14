@@ -108,11 +108,11 @@ const mock = {
 }
 
 // 匹配所有数据模板
-const regAll = /{{(request|index|id|bool|integer|float|string|random|age|gender|email|phone|username|password|longitude|latitude|url|ua|ip|mac|avatar|image|color|rgb|rgba|date|time|datetime|title|paragraph|sentence|name|region|province|city|county|address|zip)\(\S*\)}}/g
+const regAll = /{{(request|index|id|bool|integer|float|string|random|age|gender|email|phone|username|password|longitude|latitude|url|ua|ip|mac|avatar|image|color|rgb|rgba|date|time|datetime|title|paragraph|sentence|name|region|province|city|county|address|zip)\(.*\)}}/g
 // 匹配number类型数据模板
-const regNumber = /^{{(index|integer|float|age|longitude|latitude)\(\S*\)}}$/
+const regNumber = /^{{(index|integer|float|age|longitude|latitude)\(.*\)}}$/
 // 匹配bool类型数据模板
-const regBoolean = /^{{(bool)\(\S*\)}}$/
+const regBoolean = /^{{(bool)\(\)}}$/
 
 /**
  * 空函数 内部不做任何处理 直接返回参数
@@ -166,7 +166,6 @@ function clone (temp, data, index) {
             temp = [_]
           }
         } else {
-          console.log(1)
           temp = eval(keys[0]) // eslint-disable-line no-eval
           for (let i = 0; i < temp.length; i++) {
             temp[i] = value
@@ -207,7 +206,11 @@ function clone (temp, data, index) {
             temp = temp.replace(m, ret)
           }
         } else {
-          temp = temp.replace(m, eval(m.replace(/^{{/, 'mock.').replace(/}}$/, ''))) // eslint-disable-line no-eval
+          try {
+            const val = eval(m.replace(/^{{/, 'mock.').replace(/}}$/, '')) // eslint-disable-line no-eval
+            if (val) temp = temp.replace(m, val)
+          } catch (e) {
+          }
         }
       }
       temp = type(temp) // 数据类型转换
