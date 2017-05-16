@@ -208,7 +208,7 @@ function clone (temp, data, index) {
         } else {
           try {
             const val = eval(m.replace(/^{{/, 'mock.').replace(/}}$/, '')) // eslint-disable-line no-eval
-            if (val) temp = temp.replace(m, val)
+            if (typeof val !== 'undefined') temp = temp.replace(m, val)
           } catch (e) {
           }
         }
