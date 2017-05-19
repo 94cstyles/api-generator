@@ -1,5 +1,6 @@
 const faker = require('faker')
 const Mock = require('mockjs')
+const lodash = require('lodash')
 const utils = require('./utils')
 
 // mock数据生产模板
@@ -140,7 +141,6 @@ function repeat (min = 1, max = min) { // eslint-disable-line no-unused-vars
     return new Array(1)
   }
 }
-
 /**
  * 递归处理mock模板
  * @param temp
@@ -176,7 +176,7 @@ function clone (temp, data, index) {
 
     // 拆分数组进行处理
     for (const [i, o] of temp.entries()) {
-      temp[i] = clone(o, data, i)
+      temp[i] = clone(lodash.cloneDeep(o), data, i)
     }
   } else if (typeof temp === 'object' && temp !== null) {
     // 拆分对象进行处理
